@@ -1,5 +1,7 @@
 !setship
 !sunk
-!leaderboard 
+!removekill
 !myship
 !leave
+!leaderbaord
+!removeleaderboard
