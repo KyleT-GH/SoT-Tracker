@@ -16,7 +16,7 @@ I used a mix of online resources, documentation, and AI to help build an outline
 
 - Practice reading and writing Python
 - Debug real code
-- Learn to configure and run a Discord bot
+- Learn to configure and run a Discord bot with security in mind
 - Deploy something that runs 24/7
 
 As of now, the bot has multiple working commands and is hosted online 24/7 using [Railway](https://railway.app). I’m excited to finally push it publicly.
