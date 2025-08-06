@@ -1,0 +1,5 @@
+!setship
+!sunk
+!leaderboard 
+!myship
+!leave

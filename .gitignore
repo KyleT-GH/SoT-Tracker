@@ -1,0 +1,11 @@
+.env
+ship_data.json
+
+_pycache_/
+.pyc
+.pyo
+.pyd
+
+.vscode/
+.log
+.DS_Store
