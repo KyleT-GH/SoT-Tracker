@@ -92,7 +92,7 @@ async def sunk(ctx, number: int = 1):
 
     # Check if the ship has already been credited recently
     now = time.time()
-    cooldown = 300  # seconds
+    cooldown = 120  # seconds
 
     last_time = data.get("last_ship_kills", {}).get(ship, 0)
     if now - last_time > cooldown:
