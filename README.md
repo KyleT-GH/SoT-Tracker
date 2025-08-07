@@ -33,7 +33,8 @@ As of now, the bot has multiple working commands and is hosted online 24/7 using
 - `!flag` - Add emissary flags turned in for your ship
 - `!gold <amount>` - Add gold eanred for your ship 
 - `!leaderboard` – View top ships and players  
-- `!myship` – See your ship and personal kill stats  
+- `!myship` – See your ship and personal kill stats
+- `!crew` - See ALL crew on a ship  
 - `!leave` – Remove yourself from a ship  
 - `!resetleaderboard` – Admin-only leaderboard reset  
 - `!removekill [number]` – Remove personal kill stats
