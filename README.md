@@ -28,10 +28,12 @@ As of now, the bot has multiple working commands and is hosted online 24/7 using
 # Features #
 
 - `!setship <ship name> [@users]` – Assign users to a ship  
-- `!sunk` – Log a ship kill (with anti-spam cooldown)  
+- `!sunk` – Log a ship kill (with anti-spam cooldown) 
+- `!kill` - Add personal kill only (QoL for crew that doesnt have easy access to discord) 
+- `!flag` - Add emissary flags turned in for your ship
+- `!gold <amount>` - Add gold eanred for your ship 
 - `!leaderboard` – View top ships and players  
 - `!myship` – See your ship and personal kill stats  
-- `!crew <ship>` – List all players on a given ship  
 - `!leave` – Remove yourself from a ship  
 - `!resetleaderboard` – Admin-only leaderboard reset  
 - `!removekill [number]` – Remove personal kill stats
