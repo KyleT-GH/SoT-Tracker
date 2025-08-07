@@ -98,7 +98,7 @@ async def sunk(ctx, number: int = 1):
     else:
         # Only credit personal stat #
         await safe_save()
-        await ctx.send(f"🧍 Ship Taken Out By {ctx.author.display_name}, Ship Kill Logged Already.")
+        await ctx.send(f"🧍 Sent A Pirate To The Ferry! {ctx.author.display_name}, Ship Sunk Already Logged.")
 
 @bot.command()
 async def leaderboard(ctx):
