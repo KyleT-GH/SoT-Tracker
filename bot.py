@@ -185,25 +185,7 @@ async def leaderboard(ctx):
 
     await ctx.send(leaderboard_text)
 
-@bot.command()
-async def crew(ctx, *, ship_name: str):
-    """List all users currently assigned to a ship."""
-    members = [uid for uid, info in data["users"].items() if info["current_ship"] == ship_name]
 
-    if not members:
-        await ctx.send(f"🛳️ No one is currently assigned to **{ship_name}**.")
-        return
-
-    names = []
-    for uid in members:
-        try:
-            user = await bot.fetch_user(int(uid))
-            names.append(user.display_name)
-        except:
-            names.append("Unknown")
-
-    crew_list = ', '.join(f'**{name}**' for name in names)
-    await ctx.send(f"👥 Crew on **{ship_name}**: {crew_list}")
 
 
 @bot.command()
