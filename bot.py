@@ -87,23 +87,20 @@ async def sunk(ctx, number: int = 1):
         await ctx.send("⚠️ You're not assigned to a ship. Use `!setship <ship name>` first.")
         return
 
-    # Add personal kill(s) #
-    ensure_ship(ship_name)
+    ensure_ship(ship)
     data["users"][user_id]["kills"] += number
 
     # Check if the ship has already been credited recently
     now = time.time()
-    cooldown = 300  # seconds; adjust as needed to prevent spam #
+    cooldown = 300  # seconds
 
     last_time = data.get("last_ship_kills", {}).get(ship, 0)
     if now - last_time > cooldown:
-        # Enough time has passed; credit ship #
-        data["ships"][ship] = data["ships"].get(ship, 0) + 1
+        data["ships"][ship]["kills"] += 1
         data.setdefault("last_ship_kills", {})[ship] = now
         await safe_save()
-        await ctx.send(f"💥 1 Ship Sent To Davy Jones Locker! **{ship}** by {ctx.author.display_name}.")
+        await ctx.send(f"💥 1 Ship Sent To Davy Jones' Locker! **{ship}** by {ctx.author.display_name}.")
     else:
-        # Only credit personal stat #
         await safe_save()
         await ctx.send(f"🧍 Sent A Pirate To The Ferry! {ctx.author.display_name}, Ship Already At The Bottom Of The Sea.")
 
