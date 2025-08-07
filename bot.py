@@ -102,7 +102,7 @@ async def sunk(ctx, number: int = 1):
         await ctx.send(f"💥 1 Ship Sent To Davy Jones' Locker! **{ship}** by {ctx.author.display_name}.")
     else:
         await safe_save()
-        await ctx.send(f"🧍 Sent A Pirate To The Ferry! {ctx.author.display_name}, Ship Already At The Bottom Of The Sea.")
+        await ctx.send(f"🧍 {ctx.author.display_name} Sent A Pirate To The Ferry!, Ship Already At The Bottom Of The Sea.")
 
 @bot.command()    
 async def kill(ctx, number: int = 1):
