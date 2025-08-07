@@ -26,7 +26,7 @@ def load_data():
 def ensure_ship(ship_name):
     if ship_name not in data["ships"]:
         data["ships"][ship_name] = {
-            "Kills": 0,
+            "kills": 0,
             "flags": 0,
             "gold": 0
         }
