@@ -68,7 +68,7 @@ async def setship(ctx, ship_name: str, *members: discord.Member):
 
     names = [ctx.author.display_name] + [member.display_name for member in members]
     crew_list = ', '.join(f'**{name}**' for name in names)
-    await ctx.send(f"🧭 Assigned {crew_list} to ship **{ship_name}**.")
+    await ctx.send(f"🧭 Ahoy! Crew Formed {crew_list} To Ship **{ship_name}**.")
 
 @bot.command()
 async def sunk(ctx, number: int = 1):
@@ -86,7 +86,7 @@ async def sunk(ctx, number: int = 1):
 
     # Check if the ship has already been credited recently
     now = time.time()
-    cooldown = 120  # seconds; adjust as needed to prevent spam #
+    cooldown = 300  # seconds; adjust as needed to prevent spam #
 
     last_time = data.get("last_ship_kills", {}).get(ship, 0)
     if now - last_time > cooldown:
@@ -98,7 +98,7 @@ async def sunk(ctx, number: int = 1):
     else:
         # Only credit personal stat #
         await safe_save()
-        await ctx.send(f"🧍 Sent A Pirate To The Ferry! {ctx.author.display_name}, Ship Sunk Already Logged.")
+        await ctx.send(f"🧍 Sent A Pirate To The Ferry! {ctx.author.display_name}, Ship Already At The Bottom Of The Sea.")
 
 @bot.command()
 async def leaderboard(ctx):
