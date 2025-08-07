@@ -23,6 +23,13 @@ def load_data():
         "ships": {}, 
         "last_ship_kills": {}  # <-- track last ship kill timestamp #
     }
+def ensure_ship(ship_name):
+    if ship_name not in data["ships"]:
+        data["ships"][ship_name] = {
+            "Kills": 0,
+            "flags": 0,
+            "gold": 0
+        }
 
 import asyncio
 data_lock = asyncio.Lock()
@@ -61,9 +68,8 @@ async def setship(ctx, ship_name: str, *members: discord.Member):
         ensure_user(uid_str)
         data["users"][uid_str]["current_ship"] = ship_name
 
-    if ship_name not in data["ships"]:
-        data["ships"][ship_name] = 0
-
+  
+    ensure_ship(ship_name)
     await safe_save()
 
     names = [ctx.author.display_name] + [member.display_name for member in members]
@@ -82,6 +88,7 @@ async def sunk(ctx, number: int = 1):
         return
 
     # Add personal kill(s) #
+    ensure_ship(ship_name)
     data["users"][user_id]["kills"] += number
 
     # Check if the ship has already been credited recently
@@ -119,6 +126,39 @@ async def kill(ctx, number: int = 1):
     await ctx.send(f"💃 {ctx.author.display_name} Just Danced On {number} Pirate's Grave{'s' if number != 1 else ''}!")
 
 @bot.command()
+async def flag(ctx, number: int = 1):
+    """Track emissary flags turned in for your current ship."""
+    user_id = str(ctx.author.id)
+    ensure_user(user_id)
+    ship = data["users"][user_id]["current_ship"]
+
+    if not ship:
+        await ctx.send("⚠️ You're not assigned to a ship. Use `!setship <ship name>` first.")
+        return
+
+    ensure_ship(ship)
+    data["ships"][ship]["flags"] += number
+    await safe_save()
+    await ctx.send(f"🚩 {number} Emissary flag{'s' if number != 1 else ''} Handed In For **{ship}**!")
+
+@bot.command()
+async def gold(ctx, amount: int):
+    """Track gold earned for the ship."""
+    user_id = str(ctx.author.id)
+    ensure_user(user_id)
+    ship = data["users"][user_id]["current_ship"]
+
+    if not ship:
+        await ctx.send("⚠️ You're not assigned to a ship. Use `!setship <ship name>` first.")
+        return
+     
+    ensure_ship(ship)
+    data["ships"][ship]["gold"] += amount
+    await safe_save()
+    await ctx.send(f"💰 {amount} Booty Added To **{ship}**'s Total Earning!")
+
+
+@bot.command()
 async def leaderboard(ctx):
     """Show top ships and top players."""
     users = data["users"]
@@ -129,9 +169,9 @@ async def leaderboard(ctx):
         return
 
     leaderboard_text = "**🚢 Ship Leaderboard**\n"
-    sorted_ships = sorted(ships.items(), key=lambda x: x[1], reverse=True)
-    for i, (ship, count) in enumerate(sorted_ships[:5], 1):
-        leaderboard_text += f"{i}. **{ship}** – {count} kills\n"
+    sorted_ships = sorted(ships.items(), key=lambda x: x[1]["kills"], reverse=True)
+    for i, (ship, info) in enumerate(sorted_ships[:5], 1):
+        leaderboard_text += f"{i}. **{ship}** – {info['kills']} kills, {info['flags']} flags, {info['gold']} gold\n"
 
     leaderboard_text += "\n**🏴‍☠️ Player Leaderboard**\n"
     sorted_users = sorted(users.items(), key=lambda x: x[1]["kills"], reverse=True)
@@ -144,6 +184,27 @@ async def leaderboard(ctx):
         leaderboard_text += f"{i}. {name} – {info['kills']} kills\n"
 
     await ctx.send(leaderboard_text)
+
+@bot.command()
+async def crew(ctx, *, ship_name: str):
+    """List all users currently assigned to a ship."""
+    members = [uid for uid, info in data["users"].items() if info["current_ship"] == ship_name]
+
+    if not members:
+        await ctx.send(f"🛳️ No one is currently assigned to **{ship_name}**.")
+        return
+
+    names = []
+    for uid in members:
+        try:
+            user = await bot.fetch_user(int(uid))
+            names.append(user.display_name)
+        except:
+            names.append("Unknown")
+
+    crew_list = ', '.join(f'**{name}**' for name in names)
+    await ctx.send(f"👥 Crew on **{ship_name}**: {crew_list}")
+
 
 @bot.command()
 async def myship(ctx):
