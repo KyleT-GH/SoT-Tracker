@@ -100,6 +100,24 @@ async def sunk(ctx, number: int = 1):
         await safe_save()
         await ctx.send(f"🧍 Sent A Pirate To The Ferry! {ctx.author.display_name}, Ship Already At The Bottom Of The Sea.")
 
+@bot.command()    
+async def kill(ctx, number: int = 1):
+    """
+    Add personal kill(s) only. Does not affect ship stats or trigger cooldowns. <- QoL to !sunk 
+    Usage: !kill [number]
+    """
+    user_id = str(ctx.author.id)
+    ensure_user(user_id)
+
+    if number < 1:
+        await ctx.send("⚠️ You must add at least 1 kill.")
+        return
+
+    data["users"][user_id]["kills"] += number
+    await safe_save()
+
+    await ctx.send(f"💃 {ctx.author.display_name} Just Danced On {number} Pirate's Grave{'s' if number != 1 else ''}!")
+
 @bot.command()
 async def leaderboard(ctx):
     """Show top ships and top players."""
