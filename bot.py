@@ -99,7 +99,7 @@ async def sunk(ctx, number: int = 1):
         data["ships"][ship]["kills"] += 1
         data.setdefault("last_ship_kills", {})[ship] = now
         await safe_save()
-        await ctx.send(f"💥 **{ship}** Sent 1 Ship Too Davy Jones' Locker! Added By {ctx.author.display_name}.")
+        await ctx.send(f"💥 **{ship}** Sent 1 Ship To Davy Jones' Locker! Added By {ctx.author.display_name}.")
     else:
         await safe_save()
         await ctx.send(f"🧍 {ctx.author.display_name} Sent A Pirate To The Ferry! Ship Already At The Bottom Of The Sea.")
